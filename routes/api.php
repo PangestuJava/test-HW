@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\BookController;
+use App\Http\Controllers\admin\LoopController;
 use App\Http\Controllers\Admin\CategoryController;
 
 /*
@@ -32,4 +33,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::PUT('/book/{uuid}/update', 'update');
         Route::DELETE('/book/{uuid}/delete', 'destroy');
     });
+
+    Route::get('/loop', [LoopController::class, 'printNumbers']);
 });
