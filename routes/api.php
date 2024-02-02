@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\Admin\CategoryController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\BookController;
+use App\Http\Controllers\Admin\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,5 +23,13 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::POST('/category/create', 'store');
         Route::PUT('/category/{uuid}/update', 'update');
         Route::DELETE('/category/{uuid}/delete', 'destroy');
+    });
+
+    Route::controller(BookController::class)->group(function () {
+        Route::GET('/books', 'index');
+        Route::GET('/book/{uuid}/detail', 'show');
+        Route::POST('/book/create', 'store');
+        Route::PUT('/book/{uuid}/update', 'update');
+        Route::DELETE('/book/{uuid}/delete', 'destroy');
     });
 });

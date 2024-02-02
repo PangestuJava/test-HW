@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Category extends Model
+class Book extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'uuid',
-        'name',
+        'category_id',
+        'title',
     ];
 
     protected static function boot()
@@ -25,8 +26,8 @@ class Category extends Model
         });
     }
 
-    public function books()
+    public function category()
     {
-        return $this->hasMany(Book::class);
+        return $this->belongsTo(Category::class);
     }
 }
