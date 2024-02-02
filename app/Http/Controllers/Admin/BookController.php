@@ -5,9 +5,10 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Services\BookService;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Book\BookResource;
 use App\Http\Requests\Store\BookStoreRequest;
 use App\Http\Requests\Update\BookUpdateRequest;
-use App\Http\Resources\Book\BookResource;
+use App\Http\Requests\Book\BookTransactionRequest;
 
 class BookController extends Controller
 {
@@ -72,6 +73,17 @@ class BookController extends Controller
 
         return response()->json([
             'message' => 'Book Deleted successfully.',
+        ], 201);
+    }
+
+    public function borrowBook(BookTransactionRequest $request, string $uuid)
+    {
+        $data = $request->validated();
+        $bookTransaction = $this->bookService->borrowBook($uuid, $data);
+
+        return response()->json([
+            'message' => 'Book borrowed successfully.',
+            'data' => $bookTransaction,
         ], 201);
     }
 }

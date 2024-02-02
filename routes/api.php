@@ -32,6 +32,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::POST('/book/create', 'store');
         Route::PUT('/book/{uuid}/update', 'update');
         Route::DELETE('/book/{uuid}/delete', 'destroy');
+
+        Route::post('/books/{uuid}/borrow', 'borrowBook');
     });
 
     Route::get('/loop', [LoopController::class, 'printNumbers']);
