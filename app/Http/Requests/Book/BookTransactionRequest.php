@@ -26,4 +26,12 @@ class BookTransactionRequest extends FormRequest
             'return_date' => ['required', 'date'],
         ];
     }
+
+    public function attributes()
+    {
+        return [
+            'user_id' => __('User'),
+            'return_date' => __('Return Date'),
+        ];
+    }
 }

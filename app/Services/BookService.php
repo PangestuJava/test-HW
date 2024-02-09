@@ -8,44 +8,17 @@ use App\Models\BookTransaction;
 /**
  * Class BookService.
  */
-class BookService
+class BookService extends BaseService
 {
-    public function getAllBook()
-    {
-        return Book::with('category')->get();
-    }
 
-    public function createBook(array $data)
+    public function __construct(Book $book)
     {
-        return Book::create([
-            'category_id' => $data['category'],
-            'title' => $data['title'],
-        ]);
-    }
-
-    public function getBookByUuid($uuid)
-    {
-        return Book::with('category')->where('uuid', $uuid)->first();
-    }
-
-    public function updateBook($uuid, array $data)
-    {
-        $book = $this->getBookByUuid($uuid);
-        $book->update([
-            'category_id' => $data['category'],
-            'title' => $data['title'],
-        ]);
-    }
-
-    public function deleteBook($uuid)
-    {
-        $book = $this->getBookByUuid($uuid);
-        $book->delete();
+        parent::__construct($book);
     }
 
     public function borrowBook($uuid, $data)
     {
-        $book = $this->getBookByUuid($uuid);
+        $book = $this->findByUuid($uuid);
 
         if (!$book->isAvailableForBorrowing()) {
             return response()->json(['message' => 'Book is not available for borrowing.'], 422);

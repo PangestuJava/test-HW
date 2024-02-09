@@ -22,8 +22,15 @@ class BookStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'category' => ['required', 'max:1'],
+            'category_id' => ['required', 'max:1'],
             'title' => ['required', 'string', 'max:255'],
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'category_id' => __('Category'),
         ];
     }
 }

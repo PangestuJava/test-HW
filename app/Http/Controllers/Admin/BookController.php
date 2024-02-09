@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
+use App\Helpers\Helpers;
 use App\Services\BookService;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Book\BookResource;
@@ -24,8 +24,11 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = $this->bookService->getAllBook();
-        return BookResource::collection($books);
+        $books = $this->bookService->getAll();
+        $hello = Helpers::helloWorld();
+        return response()->json([
+            'data' => $books
+        ]);
     }
 
     /**
@@ -34,7 +37,7 @@ class BookController extends Controller
     public function store(BookStoreRequest $request)
     {
         $data = $request->validated();
-        $book = $this->bookService->createBook($data);
+        $book = $this->bookService->create($data);
 
         return response()->json([
             'message' => 'Book created successfully.',
@@ -47,7 +50,7 @@ class BookController extends Controller
      */
     public function show(string $uuid)
     {
-        $post = $this->bookService->getBookByUuid($uuid);
+        $post = $this->bookService->findByUuid($uuid);
         return new BookResource($post);
     }
 
@@ -57,7 +60,7 @@ class BookController extends Controller
     public function update(BookUpdateRequest $request, string $uuid)
     {
         $data = $request->validated();
-        $this->bookService->updateBook($uuid, $data);
+        $this->bookService->updateUuid($uuid, $data);
 
         return response()->json([
             'message' => 'Book Updated successfully.',
@@ -69,7 +72,7 @@ class BookController extends Controller
      */
     public function destroy(string $uuid)
     {
-        $post = $this->bookService->deleteBook($uuid);
+        $post = $this->bookService->destroyByUuid($uuid);
 
         return response()->json([
             'message' => 'Book Deleted successfully.',

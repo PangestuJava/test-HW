@@ -24,7 +24,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = $this->categoryService->getAllCategory();
+        $categories = $this->categoryService->getAll();
         return CategoryResource::collection($categories);
     }
 
@@ -34,7 +34,7 @@ class CategoryController extends Controller
     public function store(CategoryStoreRequest $request)
     {
         $data = $request->validated();
-        $category = $this->categoryService->createCategory($data);
+        $category = $this->categoryService->create($data);
 
         return response()->json([
             'message' => 'Category created successfully.',
@@ -47,7 +47,7 @@ class CategoryController extends Controller
      */
     public function show(string $uuid)
     {
-        $post = $this->categoryService->getCategoryByUuid($uuid);
+        $post = $this->categoryService->findByUuid($uuid);
         return new CategoryResource($post);
     }
 
@@ -57,7 +57,7 @@ class CategoryController extends Controller
     public function update(CategoryUpdateRequest $request, string $uuid)
     {
         $data = $request->validated();
-        $this->categoryService->updateCategory($uuid, $data);
+        $this->categoryService->updateUuid($uuid, $data);
 
         return response()->json([
             'message' => 'Category Updated successfully.',
@@ -69,10 +69,10 @@ class CategoryController extends Controller
      */
     public function destroy(string $uuid)
     {
-        $post = $this->categoryService->deleteCategory($uuid);
+        $post = $this->categoryService->destroyByUuid($uuid);
 
         return response()->json([
-            'message' => 'Post Deleted successfully.',
+            'message' => 'Category Deleted successfully.',
         ], 201);
     }
 }
