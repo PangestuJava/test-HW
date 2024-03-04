@@ -16,16 +16,6 @@ use App\Http\Controllers\Admin\CategoryController;
 |
 */
 
-Route::controller(BookController::class)->group(function () {
-    Route::GET('/books', 'index');
-    Route::GET('/book/{uuid}/detail', 'show');
-    Route::POST('/book/create', 'store');
-    Route::PUT('/book/{uuid}/update', 'update');
-    Route::DELETE('/book/{uuid}/delete', 'destroy');
-
-    Route::post('/books/{uuid}/borrow', 'borrowBook');
-});
-
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::controller(CategoryController::class)->group(function () {
@@ -34,6 +24,16 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::POST('/category/create', 'store');
         Route::PUT('/category/{uuid}/update', 'update');
         Route::DELETE('/category/{uuid}/delete', 'destroy');
+    });
+
+    Route::controller(BookController::class)->group(function () {
+        Route::GET('/books', 'index');
+        Route::GET('/book/{uuid}/detail', 'show');
+        Route::POST('/book/create', 'store');
+        Route::PUT('/book/{uuid}/update', 'update');
+        Route::DELETE('/book/{uuid}/delete', 'destroy');
+
+        Route::post('/books/{uuid}/borrow', 'borrowBook');
     });
 
     Route::get('/loop', [LoopController::class, 'printNumbers']);
